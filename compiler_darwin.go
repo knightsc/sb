@@ -6,11 +6,10 @@ package sb
 import "C"
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"unsafe"
-
-	"github.com/pkg/errors"
 )
 
 // Compile reads a sbpl file and compiles it into binary form.
@@ -18,7 +17,7 @@ func Compile(in io.Reader, out io.Writer) error {
 	buf := new(bytes.Buffer)
 	size, err := buf.ReadFrom(in)
 	if err != nil {
-		return errors.Wrap(err, "failed to read input")
+		return err
 	}
 
 	if size == 0 {
